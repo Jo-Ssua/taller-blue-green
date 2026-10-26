@@ -1,0 +1,334 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-tabla]{babel}
+\usepackage{geometry}
+\geometry{margin=0.68in, top=0.85in, bottom=0.78in, headheight=36pt, headsep=14pt}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{colortbl}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{lastpage}
+\usepackage{setspace}
+\usepackage{listings}
+
+% Tipografía institucional Icesi (Sans-Serif Helvetica)
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+
+% Interlineado aumentado un 30% (setstretch 1.38)
+\setstretch{1.38}
+
+% Altura de celdas en tablas
+\renewcommand{\arraystretch}{1.25}
+
+% Paleta de Colores Oficial de los Programas Icesi
+\definecolor{icesiBlue}{HTML}{5454E9}       % Azul vibrante institucional
+\definecolor{icesiOrange}{HTML}{F0681A}     % Naranja acento
+\definecolor{icesiGreen}{HTML}{4CB978}      % Verde acento
+\definecolor{icesiPurple}{HTML}{865CF0}     % Púrpura acento
+\definecolor{icesiDark}{HTML}{1A1A1A}       % Texto principal oscuro
+\definecolor{icesiMuted}{HTML}{6B7280}      % Gris metadatos
+\definecolor{icesiBorder}{HTML}{D1D5DB}     % Líneas y bordes
+\definecolor{icesiRowLine}{HTML}{E5E7EB}    % Líneas de tabla
+\definecolor{icesiLight}{HTML}{F9FAFB}      % Fondo suave
+\definecolor{codeBackground}{HTML}{F3F4F6}  % Fondo código
+
+% Configuración de Listings
+\lstdefinestyle{bashstyle}{
+    backgroundcolor=\color{codeBackground},
+    commentstyle=\color{icesiMuted}\itshape,
+    keywordstyle=\color{icesiBlue}\bfseries,
+    basicstyle=\ttfamily\scriptsize,
+    breaklines=true,
+    frame=single,
+    rulecolor=\color{icesiBorder},
+    language=bash,
+    aboveskip=2pt,
+    belowskip=2pt
+}
+
+\lstdefinestyle{codeStyle}{
+    backgroundcolor=\color{codeBackground},
+    commentstyle=\color{icesiMuted}\itshape,
+    keywordstyle=\color{icesiBlue}\bfseries,
+    stringstyle=\color{icesiOrange},
+    basicstyle=\ttfamily\scriptsize,
+    breaklines=true,
+    frame=single,
+    rulecolor=\color{icesiBorder},
+    aboveskip=2pt,
+    belowskip=2pt
+}
+
+% =========================================================================
+% ENCABEZADO Y PIE DE PÁGINA ESTILO PROGRAMA DE CURSO ICESI
+% =========================================================================
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{%
+  \begin{minipage}[c]{2.8cm}
+    \includegraphics[height=0.58cm]{logo-icesi.png}
+  \end{minipage}%
+  \hspace{0.15cm}%
+  {\color{icesiBorder}\vrule width 0.8pt height 0.60cm}%
+  \hspace{0.2cm}%
+  \begin{minipage}[c]{10.5cm}
+    \fontsize{7.5}{9.5}\selectfont\textbf{\color{icesiDark}UNIVERSIDAD ICESI} \\
+    \fontsize{7}{9}\selectfont\textbf{\color{icesiDark}PROGRAMA DE CURSO / GUÍA PRÁCTICA FORMATIVA: INGENIERÍA DE SOFTWARE V} \\
+    \fontsize{6.5}{8.5}\selectfont\color{icesiMuted}Período: 202620 $\bullet$ NRC: 11005 $\bullet$ Semana 11 $\bullet$ Sesión 21 $\bullet$ Duración: 2 Horas
+  \end{minipage}%
+}
+\fancyhead[R]{\fontsize{7.5}{9.5}\selectfont\color{icesiMuted}Pág. \thepage\ de \pageref{LastPage}}
+
+% Barra horizontal multicolor
+\renewcommand{\headrule}{%
+  \vspace{0.08cm}%
+  \noindent%
+  \textcolor{icesiBlue}{\rule{0.60\textwidth}{1.8pt}}%
+  \textcolor{icesiOrange}{\rule{0.18\textwidth}{1.8pt}}%
+  \textcolor{icesiGreen}{\rule{0.11\textwidth}{1.8pt}}%
+  \textcolor{icesiPurple}{\rule{0.11\textwidth}{1.8pt}}%
+}
+\renewcommand{\footrulewidth}{0.4pt}
+\fancyfoot[L]{\fontsize{7.5}{9.5}\selectfont\color{icesiMuted}Ingeniería de Software V (09776 - TIC) $\bullet$ Taller Formativo: Despliegue Blue-Green}
+\fancyfoot[R]{\fontsize{7.5}{9.5}\selectfont\color{icesiMuted}Universidad Icesi $\bullet$ DCSI}
+
+% =========================================================================
+% COMANDOS DE SECCIONES CON BADGE ESTILO PROGRAMA ICESI
+% =========================================================================
+\newcommand{\sectionBadge}[1]{%
+  \refstepcounter{section}%
+  \vspace{0.16cm}%
+  \noindent%
+  \colorbox{icesiBlue}{\color{white}\rule[-0.08cm]{0pt}{0.42cm}\hspace{0.16cm}\textbf{\normalsize \thesection}\hspace{0.16cm}}%
+  \hspace{0.18cm}%
+  {\fontsize{9.5}{12}\selectfont\textbf{\color{icesiDark}#1}}\\[-0.10cm]%
+  \noindent{\color{icesiDark}\rule{\textwidth}{0.8pt}}\vspace{0.06cm}%
+}
+
+\titleformat{\subsection}
+  {\color{icesiBlue}\normalfont\normalsize\bfseries}
+  {\thesubsection}{0.4em}{}
+\titlespacing*{\subsection}{0pt}{0.4ex plus 0.2ex minus .1ex}{0.2ex plus .1ex}
+
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+\begin{document}
+
+% =========================================================================
+% TÍTULO Y PRESENTACIÓN INICIAL (PÁGINA 1)
+% =========================================================================
+\noindent
+{\fontsize{8.2}{10.5}\selectfont\textbf{\color{icesiBlue}GUÍA PRÁCTICA FORMATIVA: ESTRATEGIA DE DESPLIEGUE BLUE-GREEN (ZERO-DOWNTIME)}}\\[0.04cm]
+{\fontsize{13.5}{16}\selectfont\textbf{Ingeniería de Software V --- Sesión 21 (Semana 11)}}\\[0.05cm]
+{\fontsize{8}{10}\selectfont\color{icesiMuted}\textbf{Enrutamiento Atómico en Nginx, Pre-Calentamiento, Health Checks y Rollback Instantáneo}}\\[0.02cm]
+{\color{icesiRowLine}\hrule height 0.6pt}\vspace{0.04cm}
+
+\noindent
+{\color{icesiBlue}\textbf{\rule{2.5pt}{8.0pt}}}~\textbf{\fontsize{8}{10}\selectfont FACULTAD DE INGENIERÍA, DISEÑO Y CIENCIAS APLICADAS} \hfill
+{\color{icesiOrange}\textbf{\rule{2.5pt}{8.0pt}}}~\textbf{\fontsize{8}{10}\selectfont DEPARTAMENTO DE COMPUTACIÓN Y SISTEMAS INTELIGENTES}\\[0.02cm]
+{\color{icesiRowLine}\hrule height 0.6pt}\vspace{0.04cm}
+
+% =========================================================================
+% TABLA DE METADATOS FORMATIVOS
+% =========================================================================
+\noindent
+{\color{icesiBlue}\textbf{\rule{2.5pt}{8.0pt}}}~\textbf{\fontsize{8}{10}\selectfont INFORMACIÓN DE LA ACTIVIDAD} \hfill {\fontsize{7}{8.5}\selectfont\color{icesiMuted}\textbf{IDENTIFICACIÓN}}\\[-0.22cm]
+{\color{icesiBorder}\hrule height 0.5pt}\vspace{0.03cm}
+
+\noindent
+\fontsize{7.0}{8.8}\selectfont
+\begin{tabularx}{\textwidth}{>{\bfseries\color{icesiDark}\fontsize{7.0}{8.8}\selectfont}L{2.5cm}X!{\color{icesiBlue}\vrule width 0.8pt}>{\bfseries\color{icesiDark}\fontsize{7.0}{8.8}\selectfont}L{2.5cm}X}
+CÓDIGO: & 09776 - TIC & PERÍODO: & 202620 (Semestre 2026-2) \\ \hline
+\rowcolor{icesiLight}
+NRC / GRUPO: & 11005 / Grupo 001 & PONDERACIÓN: & \textbf{Formativa} (Sin calificación sumativa) $\bullet$ Duración: 2 Horas \\ \hline
+POLÍTICA IAG: & Nivel 3: Colaboración Asistida & MODALIDAD: & Parejas / Laboratorio Práctico Guiado \\ \hline
+\rowcolor{icesiLight}
+ESTUDIANTE 1: & \rule{4.5cm}{0.4pt} & CÓDIGO: & \rule{2.2cm}{0.4pt} \\ \hline
+ESTUDIANTE 2: & \rule{4.5cm}{0.4pt} & CÓDIGO: & \rule{2.2cm}{0.4pt} \\ \hline
+\end{tabularx}
+
+\vspace{0.03cm}
+
+% =========================================================================
+% SECCIÓN 1: CONTEXTO Y ARQUITECTURA BLUE-GREEN
+% =========================================================================
+\sectionBadge{Contexto del Problema \& Arquitectura Blue-Green}
+
+\subsection{Descripción del Reto de Despliegue}
+Tradicionalmente, actualizar una aplicación implicaba detener el proceso anterior, compilar o desplegar el nuevo binario y reiniciar el servicio. Este enfoque destructivo (\textit{In-Place / Recreate}) ocasiona tiempos de caída inevitables (\textit{Downtime}), desconexión de usuarios y errores HTTP 502 Bad Gateway.
+
+La estrategia \textbf{Blue-Green Deployment} resuelve este problema manteniendo dos entornos de producción arquitectónicamente idénticos:
+\begin{itemize}[itemsep=0.2pt,topsep=0.5pt]
+  \item \textbf{Entorno Blue (Producción Activa):} Aloja la versión actual (\texttt{v1.0.0}) y recibe el 100\% del tráfico real a través del router de entrada.
+  \item \textbf{Entorno Green (Entorno Pasivo / Staging):} Aloja la nueva versión (\texttt{v2.0.0}). Permite realizar pre-calentamiento de cachés, pruebas de humo y validación de endpoints de salud sin alterar a los clientes.
+  \item \textbf{Conmutación Atómica de Tráfico:} Una vez validado Green, el enrutador (Nginx) redirige el 100\% de las conexiones a Green en milisegundos mediante una recarga en caliente (\texttt{nginx -s reload}) sin cortar peticiones activas.
+  \item \textbf{Rollback Instantáneo:} Si la nueva versión presenta anomalías imprevistas, el router conmutará de vuelta a Blue en menos de 1 segundo.
+\end{itemize}
+
+\vspace{0.03cm}
+\noindent
+\fontsize{7.0}{8.8}\selectfont
+\begin{tabularx}{\textwidth}{|L{2.8cm}|X|L{3.5cm}|}
+\hline
+\rowcolor{icesiLight}
+\textbf{Componente} & \textbf{Tecnología \& Contenedor} & \textbf{Puerto / Endpoint} \\ \hline
+\textbf{Router / Gateway} & Nginx 1.25 Alpine (Reverse Proxy) & Puerto \texttt{8080} (\texttt{http://localhost:8080}) \\ \hline
+\textbf{Archivo Auxiliar} & \texttt{conf.d/upstream.conf} (Dinámico) & Inclusión modular de upstream \\ \hline
+\textbf{Servicio Blue} & Microservicio v1.0.0 (\texttt{app-blue}) & Puerto interno \texttt{8081} (\texttt{/api/info}) \\ \hline
+\textbf{Servicio Green} & Microservicio v2.0.0 (\texttt{app-green}) & Puerto interno \texttt{8082} (\texttt{/api/info}) \\ \hline
+\textbf{Orquestación} & Docker Compose (Red interna \texttt{deploy-net}) & Aislamiento y persistencia \\ \hline
+\end{tabularx}
+
+\newpage
+
+% =========================================================================
+% PÁGINA 2: PROCEDIMIENTO EXPERIMENTAL PASO A PASO
+% =========================================================================
+\sectionBadge{Procedimiento Experimental Paso a Paso}
+
+\subsection{Fase 1: Puesta en Marcha del Entorno con Docker Compose (15 min)}
+Ubíquese en el directorio \texttt{codigo\_base/} e inspeccione el archivo \texttt{docker-compose.yml}:
+\begin{lstlisting}[style=codeStyle]
+services:
+  nginx-router:
+    image: nginx:1.25-alpine
+    container_name: nginx-router
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - app-blue
+      - app-green
+
+  app-blue:
+    build: ./app-blue
+    container_name: app-blue
+    ports:
+      - "8081:8080" # Puerto expuesto para verificacion y smoke test
+
+  app-green:
+    build: ./app-green
+    container_name: app-green
+    ports:
+      - "8082:8080" # Puerto expuesto para verificacion y smoke test
+\end{lstlisting}
+
+Inicie los contenedores y compruebe su estado:
+\begin{lstlisting}[style=bashstyle]
+docker compose up -d --build
+docker compose ps
+\end{lstlisting}
+
+\subsection{Fase 2: Arquitectura Modular Nginx y Archivo Auxiliar (15 min)}
+\textit{Fundamento de Ingeniería:} Para evitar errores de inodo bloqueado (\textit{Device or resource busy}) al actualizar archivos montados en Docker, Nginx delega la directiva \texttt{upstream} a un archivo auxiliar montado dentro del directorio \texttt{conf.d}:
+\begin{lstlisting}[style=codeStyle]
+# nginx/nginx.conf: Incluye la definicion del upstream dinamicamente
+http {
+    include /etc/nginx/conf.d/upstream.conf;
+    server {
+        listen 80;
+        location / {
+            proxy_pass http://backend_app;
+            proxy_set_header Host $host;
+            add_header X-Handled-By $upstream_addr always;
+        }
+    }
+}
+
+# nginx/conf.d/upstream.conf: Archivo auxiliar (inicialmente apunta a Blue)
+upstream backend_app {
+    server app-blue:8080;
+}
+\end{lstlisting}
+
+Consulte el router principal a través de \texttt{curl}:
+\begin{lstlisting}[style=bashstyle]
+curl -i http://localhost:8080/api/info
+\end{lstlisting}
+Debe observar la cabecera \texttt{X-Handled-By: ...} y la respuesta activa desde el entorno \texttt{BLUE} (versión \texttt{1.0.0}).
+
+\newpage
+
+\subsection{Fase 3: Verificación Previa y Pre-Calentamiento en Green (20 min)}
+Antes de transferir a los usuarios, la versión \texttt{v2.0.0} desplegada en Green debe ser sometida a un Smoke Test:
+\begin{lstlisting}[style=bashstyle]
+# Comprobar salud del microservicio Green antes del swap:
+curl -f http://localhost:8082/api/health
+curl -s http://localhost:8082/api/info | jq .
+\end{lstlisting}
+Si el endpoint no responde HTTP 200 con estado \texttt{UP}, la conmutación se cancela inmediatamente, protegiendo a los usuarios.
+
+\subsection{Fase 4: Ejecución del Switch Atómico con Tráfico Sintético (30 min)}
+Para evidenciar que la recarga de Nginx ocurre con cero tiempo de inactividad, abra una terminal y ejecute el generador de tráfico en bucle:
+\begin{lstlisting}[style=bashstyle]
+# Terminal 1: Generador continuo de peticiones
+./test_traffic.sh
+\end{lstlisting}
+
+En una segunda terminal, ejecute el script de conmutación atómica \texttt{./switch.sh}:
+\begin{lstlisting}[style=bashstyle]
+#!/usr/bin/env bash
+# 1. Comprobacion de salud estricta en Green
+echo "[1/3] Verificando salud de entorno Green..."
+curl -sf http://localhost:8082/api/health || { echo "[ERROR] Green no saludable"; exit 1; }
+
+# 2. Modificacion atomica del archivo auxiliar (sin bloquear inodos)
+echo "[2/3] Actualizando archivo auxiliar de upstream hacia app-green..."
+sed -i 's/app-blue:8080/app-green:8080/' ./nginx/conf.d/upstream.conf
+
+# 3. Recarga atomica en caliente sin cortar conexiones existentes
+echo "[3/3] Recargando Nginx en caliente (Zero Downtime)..."
+docker exec nginx-router nginx -s reload
+echo "[OK] Conmutacion completada. Produccion ahora corre sobre GREEN (v2.0.0)"
+\end{lstlisting}
+Observe la Terminal 1: las peticiones cambian de \texttt{BLUE} a \texttt{GREEN} instantáneamente sin que ninguna arroje error HTTP 502 ni tiempo de espera excesivo.
+
+\subsection{Fase 5: Simulación de Incidente y Rollback Instantáneo (20 min)}
+Simule un fallo en caliente ejecutando el script de reversión:
+\begin{lstlisting}[style=bashstyle]
+./rollback.sh
+\end{lstlisting}
+El script revierte el archivo auxiliar \texttt{upstream.conf} hacia \texttt{app-blue:8080} y recarga Nginx en menos de 1 segundo.
+
+\newpage
+
+% =========================================================================
+% PÁGINA 4: CUESTIONARIO Y CHECKLIST FORMATIVO
+% =========================================================================
+\sectionBadge{Cuestionario de Reflexión Conceptual \& Checklist Formativo}
+
+\subsection{Preguntas de Reflexión Técnica}
+\begin{enumerate}[leftmargin=*,itemsep=2.5pt]
+  \item \textbf{Costo de Infraestructura:} ¿Qué implicaciones presupuestales tiene la duplicación al 100\% de recursos que exige Blue-Green en clústeres de cientos de microservicios? ¿Cómo mitiga la nube elástica este costo?
+  \item \textbf{Persistencia de Sesiones:} Si los usuarios almacenan carritos de compra o sesiones en la memoria RAM del contenedor Blue, ¿qué ocurriría al conmutar a Green? ¿Por qué la arquitectura desacoplada Twelve-Factor (Factor VI) exige sesiones en servicios externos (ej. Redis)?
+  \item \textbf{Patrón Expand \& Contract en BD:} Si la versión Green requiere una columna nueva en la base de datos relacional compartida, ¿por qué no se debe renombrar ni eliminar una columna previa mientras Blue continúe activo?
+  \item \textbf{Arquitectura de Recarga e Inodos en Docker:} ¿Por qué ejecutar \texttt{sed -i} sobre un archivo montado puntualmente (\textit{single file bind mount}) genera el error \textit{Device or resource busy}? ¿Cómo resuelve este problema el patrón arquitectónico de archivo auxiliar incluido (\texttt{upstream.conf}) dentro de un directorio montado (\texttt{conf.d})?
+\end{enumerate}
+
+\vspace{0.05cm}
+\subsection{Checklist de Logro Formativo (Autoevaluación)}
+\noindent
+\small
+\begin{tabularx}{\textwidth}{|L{4.2cm}|X|C{2.5cm}|}
+\hline
+\rowcolor{icesiLight}
+\textbf{Objetivo Formativo} & \textbf{Evidencia Observable} & \textbf{Estado} \\ \hline
+\textbf{1. Orquestación Multi-Entorno} & Contenedores Nginx, Blue (v1) y Green (v2) corriendo en red aislada. & [ ] Logrado \\ \hline
+\textbf{2. Archivo Auxiliar Upstream} & Uso de \texttt{conf.d/upstream.conf} modular sin errores de inodo bloqueado. & [ ] Logrado \\ \hline
+\textbf{3. Smoke Test en Staging} & Validación de endpoint \texttt{/api/health} en Green antes del switch. & [ ] Logrado \\ \hline
+\textbf{4. Zero Downtime Swap} & Conmutación con \texttt{nginx -s reload} sin pérdida de paquetes HTTP. & [ ] Logrado \\ \hline
+\textbf{5. Rollback Instantáneo} & Retorno a Blue en $<1$ segundo mediante reversión de archivo auxiliar. & [ ] Logrado \\ \hline
+\end{tabularx}
+
+\end{document}
